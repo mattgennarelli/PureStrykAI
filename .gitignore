@@ -1,0 +1,9 @@
+# Ignore Google Cloud Vision API Key JSON file
+*.json
+
+# Ignore Xcode user-specific settings
+xcuserdata/
+DerivedData/
+
+# Ignore build files
+build/
