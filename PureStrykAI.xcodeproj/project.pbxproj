@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E22D45D2D85F0D700EA2CF2 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 1E22D45C2D85F0D700EA2CF2 /* CropViewController */; };
+		1E22D45F2D85F0D700EA2CF2 /* TOCropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 1E22D45E2D85F0D700EA2CF2 /* TOCropViewController */; };
 		1EB8E76D2D83414F00B507ED /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1EB8E76C2D83414F00B507ED /* FirebaseAnalytics */; };
 		1EB8E76F2D83414F00B507ED /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1EB8E76E2D83414F00B507ED /* FirebaseAuth */; };
 		1EB8E7712D83414F00B507ED /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1EB8E7702D83414F00B507ED /* FirebaseFirestore */; };
@@ -72,6 +74,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1EB8E76D2D83414F00B507ED /* FirebaseAnalytics in Frameworks */,
+				1E22D45F2D85F0D700EA2CF2 /* TOCropViewController in Frameworks */,
+				1E22D45D2D85F0D700EA2CF2 /* CropViewController in Frameworks */,
 				1EB8E76F2D83414F00B507ED /* FirebaseAuth in Frameworks */,
 				1EB8E7712D83414F00B507ED /* FirebaseFirestore in Frameworks */,
 			);
@@ -137,6 +141,8 @@
 				1EB8E76C2D83414F00B507ED /* FirebaseAnalytics */,
 				1EB8E76E2D83414F00B507ED /* FirebaseAuth */,
 				1EB8E7702D83414F00B507ED /* FirebaseFirestore */,
+				1E22D45C2D85F0D700EA2CF2 /* CropViewController */,
+				1E22D45E2D85F0D700EA2CF2 /* TOCropViewController */,
 			);
 			productName = PureStrykAI;
 			productReference = 1EB8E7352D833F0900B507ED /* PureStrykAI.app */;
@@ -222,6 +228,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				1EB8E76B2D83414F00B507ED /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				1E22D45B2D85F0D700EA2CF2 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1EB8E7362D833F0900B507ED /* Products */;
@@ -582,6 +589,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1E22D45B2D85F0D700EA2CF2 /* XCRemoteSwiftPackageReference "TOCropViewController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TimOliver/TOCropViewController.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.4;
+			};
+		};
 		1EB8E76B2D83414F00B507ED /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -593,6 +608,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1E22D45C2D85F0D700EA2CF2 /* CropViewController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E22D45B2D85F0D700EA2CF2 /* XCRemoteSwiftPackageReference "TOCropViewController" */;
+			productName = CropViewController;
+		};
+		1E22D45E2D85F0D700EA2CF2 /* TOCropViewController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E22D45B2D85F0D700EA2CF2 /* XCRemoteSwiftPackageReference "TOCropViewController" */;
+			productName = TOCropViewController;
+		};
 		1EB8E76C2D83414F00B507ED /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1EB8E76B2D83414F00B507ED /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

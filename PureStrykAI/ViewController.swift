@@ -2,24 +2,24 @@
 //  ViewController.swift
 //  PureStrykAI
 //
-//  Created by Matthew Gennarelli on 3/13/25.
+//  Created by You on Today's Date.
 //
-
 import UIKit
-import UIKit
-import FirebaseAuth      // For Auth.auth()
-import FirebaseFirestore // For Firestore.firestore()
+import FirebaseAuth
+import FirebaseFirestore
+import TOCropViewController // If you want to reference it here
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController {
+
+    @IBOutlet weak var capturedImageView: UIImageView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Example usage:
+        // e.g., Firestore test
         let user = Auth.auth().currentUser
         print("Current user is \(user?.uid ?? "none")")
 
-        let db = Firestore.firestore()
-        db.collection("test").document("doc1").setData(["hello": "world"]) { error in
+        Firestore.firestore().collection("test").document("doc1").setData(["hello": "world"]) { error in
             if let error = error {
                 print("Firestore write failed: \(error)")
             } else {
@@ -27,71 +27,85 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
+
     @IBAction func selectImageButtonTapped(_ sender: UIButton) {
-        // Step 1: Create an action sheet
         let alert = UIAlertController(title: "Choose Image Source", message: nil, preferredStyle: .actionSheet)
-        
-        // Step 2: Camera option (only if camera is available)
+
+        // If camera is available
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
                 self.openCamera()
             }))
         }
-        
-        // Step 3: Photo library option
+        // If photo library is available
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { _ in
                 self.openPhotoLibrary()
             }))
         }
-        
-        // Step 4: Cancel option
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        // On iPad, action sheets need a source view/popover anchor
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        // iPad anchor
         if let popover = alert.popoverPresentationController {
             popover.sourceView = sender
             popover.sourceRect = sender.bounds
         }
-        
-        // Step 5: Present the action sheet
-        present(alert, animated: true, completion: nil)
+
+        present(alert, animated: true)
     }
-    
-    func openCamera() {
+
+    private func openCamera() {
         let picker = UIImagePickerController()
         picker.sourceType = .camera
         picker.delegate = self
         picker.allowsEditing = false
-        present(picker, animated: true, completion: nil)
+        present(picker, animated: true)
     }
 
-    func openPhotoLibrary() {
+    private func openPhotoLibrary() {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
         picker.delegate = self
         picker.allowsEditing = false
-        present(picker, animated: true, completion: nil)
+        present(picker, animated: true)
     }
 
+    // Simple utility to show final text
+    func showDetectedTextAlert(_ text: String) {
+        let alert = UIAlertController(title: "OCR Result",
+                                      message: text.isEmpty ? "No text found" : text,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+}
 
+// MARK: - UIImagePickerControllerDelegate
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.originalImage] as? UIImage {
-            // e.g., display in a UIImageView
-             capturedImageView.image = image
-            
-            // or call your OCR / upload function
-            // performOCR(on: image)
-            // uploadImage(image)
+        guard let image = info[.originalImage] as? UIImage else {
+            picker.dismiss(animated: true)
+            return
         }
-        dismiss(animated: true, completion: nil)
+        // 1. Dismiss the picker
+        picker.dismiss(animated: true) {
+            // 2. Now present the cropping screen
+            self.presentCropViewController(with: image)
+        }
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
     }
+}
 
-    @IBOutlet weak var capturedImageView: UIImageView!
-    
+// MARK: - Presenting the Crop VC
+extension ViewController {
+    func presentCropViewController(with image: UIImage) {
+        let cropVC = TOCropViewController(image: image)
+        cropVC.delegate = self // The delegate calls are in CropViewControllerDelegate.swift
+        present(cropVC, animated: true)
+    }
 }
